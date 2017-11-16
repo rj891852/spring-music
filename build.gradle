@@ -66,6 +66,12 @@ dependencies {
     testCompile "junit:junit"
 }
 
+processResources {
+  filesMatching('src/main/resources/*') {
+    expand(project.properties)
+  }
+}
+
 jar {
     baseName = "spring-music"
     version = "" // omit the version from the war file name

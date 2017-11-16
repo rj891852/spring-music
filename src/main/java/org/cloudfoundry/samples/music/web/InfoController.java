@@ -7,16 +7,24 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class InfoController {
+    private static final Logger logger = LoggerFactory.getLogger(InfoController.class);
+
     @Autowired(required = false)
     private Cloud cloud;
 
     private Environment springEnvironment;
+
+    @Value("${buildversion}")
+    private String version;
 
     @Autowired
     public InfoController(Environment springEnvironment) {
@@ -25,7 +33,7 @@ public class InfoController {
 
     @RequestMapping(value = "/appinfo")
     public ApplicationInfo info() {
-        return new ApplicationInfo(springEnvironment.getActiveProfiles(), getServiceNames());
+        return new ApplicationInfo(springEnvironment.getActiveProfiles(), getServiceNames(), version);
     }
 
     @RequestMapping(value = "/service")

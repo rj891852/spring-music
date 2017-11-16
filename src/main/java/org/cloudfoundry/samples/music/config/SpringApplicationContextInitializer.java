@@ -103,6 +103,8 @@ public class SpringApplicationContextInitializer implements ApplicationContextIn
         for (String profile : appEnvironment.getActiveProfiles()) {
             if (validLocalProfiles.contains(profile)) {
                 serviceProfiles.add(profile);
+		// FAB extra debug to show each profile
+		logger.debug("profile: " + profile);
             }
         }
 
