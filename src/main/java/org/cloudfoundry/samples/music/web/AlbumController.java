@@ -22,6 +22,8 @@ public class AlbumController {
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<Album> albums() {
+        logger.info("Getting all albums");
+        logger.debug("Getting all albums");
         return repository.findAll();
     }
 
@@ -46,6 +48,7 @@ public class AlbumController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteById(@PathVariable String id) {
         logger.info("Deleting album " + id);
+        logger.debug("Deleting album " + id);
         repository.delete(id);
     }
 }

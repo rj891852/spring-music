@@ -3,12 +3,10 @@ package org.cloudfoundry.samples.music.domain;
 public class ApplicationInfo {
     private String[] profiles;
     private String[] services;
-    private String version;
 
-    public ApplicationInfo(String[] profiles, String[] services,String version) {
+    public ApplicationInfo(String[] profiles, String[] services) {
         this.profiles = profiles;
         this.services = services;
-        this.version = version;
     }
 
     public String[] getProfiles() {
@@ -25,13 +23,6 @@ public class ApplicationInfo {
 
     public void setServices(String[] services) {
         this.services = services;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-    public String getVersion() {
-        return version;
     }
 
 }

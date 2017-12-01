@@ -23,9 +23,6 @@ public class InfoController {
 
     private Environment springEnvironment;
 
-    @Value("${buildversion}")
-    private String version;
-
     @Autowired
     public InfoController(Environment springEnvironment) {
         this.springEnvironment = springEnvironment;
@@ -33,7 +30,7 @@ public class InfoController {
 
     @RequestMapping(value = "/appinfo")
     public ApplicationInfo info() {
-        return new ApplicationInfo(springEnvironment.getActiveProfiles(), getServiceNames(), version);
+        return new ApplicationInfo(springEnvironment.getActiveProfiles(), getServiceNames() );
     }
 
     @RequestMapping(value = "/service")
