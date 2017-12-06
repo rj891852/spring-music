@@ -4,6 +4,10 @@ spring:
   jpa:
     generate-ddl: true
 
+#logging.level.root: WARN
+#logging.level.org.springframework.web: WARN
+#logging.level.org.cloudfoundry.samples.music.web: INFO
+
 # turn off the security on the actuator end points as this is a demo app
 management:
   security:
