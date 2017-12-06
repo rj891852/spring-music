@@ -22,8 +22,8 @@ public class AlbumController {
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<Album> albums() {
-        logger.info("Getting all albums");
-        logger.debug("Getting all albums");
+        logger.info("Getting all albums at INFO level");
+        logger.debug("Getting all albums at DEBUG level");
         return repository.findAll();
     }
 

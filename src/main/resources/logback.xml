@@ -3,13 +3,14 @@
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>FAB %d{yy-MMMM-dd HH:mm:ss:SSS} %5p %t %c{2}:%L - %m%n</pattern>
+            <pattern>%d{yy-MMMM-dd HH:mm:ss:SSS} %5p %t %c{4}:%L - %m%n</pattern>
         </encoder>
     </appender>
 
+    <logger name="org.springframework.web" level="warn" />
     <logger name="org.cloudfoundry.samples.music" level="debug" />
 
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="stdout"/>
     </root>
 
