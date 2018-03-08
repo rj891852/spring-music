@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+
+	<!-- pull properties from application.properties -->
+	<include resource="classpath:/application.properties"/>
+	<springProperty scope="context" name="APP_NAME" source="APP_NAME" defultValue="unknown"/>
+	<springProperty scope="context" name="APP_VERSION" source="APP_VERSION" defaultValue="unknown" />
+	<springProperty scope="context" name="CF_INSTANCE_INDEX" source="CF_INSTANCE_INDEX" defaultValue="0" />
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+        	<!--  simple pattern -->
+            <!-- <pattern>%d{yy-MMMM-dd HH:mm:ss:SSS} %5p %t %c{4}:%L %m%n</pattern> -->
+            
+            <!-- pattern that support multiline exceptions -->
+            <pattern>%date{"yyyy-MM-dd'T'HH:mm:ss.SSSZ", UTC} %5p %t %c{5}:%L [app_name=${APP_NAME};app_version=${APP_VERSION};instance_id=${CF_INSTANCE_INDEX}] %m MULTIEXCEPTION %replace(%xException){'\n','\u2028'}%nopex%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework.web" level="warn" />
+    <logger name="org.cloudfoundry.samples.music" level="debug" />
+
+    <root level="warn">
+        <appender-ref ref="stdout"/>
+    </root>
+
+</configuration>

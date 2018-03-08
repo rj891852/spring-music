@@ -1,3 +1,5 @@
+//import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
     ext {
         springBootVersion = '1.5.4.RELEASE'
@@ -31,6 +33,8 @@ repositories {
     mavenCentral()
 }
 
+assemble.dependsOn processResources
+
 dependencies {
     // Spring Boot
     compile "org.springframework.boot:spring-boot-starter-web"
@@ -57,7 +61,7 @@ dependencies {
     compile "org.webjars:angular-ui:0.4.0-2"
     compile "org.webjars:angular-ui-bootstrap:0.10.0-1"
     compile "org.webjars:jquery:2.1.0-2"
-
+    
     // Oracle - uncomment one of the following after placing driver in ./libs
     // compile files('libs/ojdbc8.jar')
     // compile files('libs/ojdbc7.jar')
@@ -66,8 +70,11 @@ dependencies {
     testCompile "junit:junit"
 }
 
+// insert project properties into application.properties file for use by logging
+//println project.properties
+ext { myextra="myextravalue" }
 processResources {
-  filesMatching('src/main/resources/*') {
+  filesMatching('**/application.properties') {
     expand(project.properties)
   }
 }
