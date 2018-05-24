@@ -4,6 +4,15 @@ spring:
   jpa:
     generate-ddl: true
 
+# Docker could read mongo datasource as defined here, but better to insert into environment     
+#  data:
+#    mongodb:
+#      uri: mongodb://admin:admin@mongotarget:27017/music
+#      host:
+#      database:
+#      username
+#      passwod
+
 #logging.level.root: WARN
 #logging.level.org.springframework.web: WARN
 #logging.level.org.cloudfoundry.samples.music.web: INFO

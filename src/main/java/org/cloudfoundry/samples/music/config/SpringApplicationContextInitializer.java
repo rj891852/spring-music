@@ -27,6 +27,7 @@ public class SpringApplicationContextInitializer implements ApplicationContextIn
     private static final List<String> validLocalProfiles = Arrays.asList("mysql", "postgres", "mongodb", "redis");
 
     public static final String IN_MEMORY_PROFILE = "in-memory";
+    public static final String REMOTE_PROFILE = "remote";
 
     static {
         serviceTypeToProfileName.put(MongoServiceInfo.class, "mongodb");
@@ -63,9 +64,9 @@ public class SpringApplicationContextInitializer implements ApplicationContextIn
 
         List<String> profiles = new ArrayList<>();
 
+        // finds services embedded in VCAP_SERVICES
         List<ServiceInfo> serviceInfos = cloud.getServiceInfos();
-
-        logger.info("Found serviceInfos: " + StringUtils.collectionToCommaDelimitedString(serviceInfos));
+        logger.debug("Found serviceInfos: " + StringUtils.collectionToCommaDelimitedString(serviceInfos));
 
         for (ServiceInfo serviceInfo : serviceInfos) {
             if (serviceTypeToProfileName.containsKey(serviceInfo.getClass())) {
@@ -100,11 +101,17 @@ public class SpringApplicationContextInitializer implements ApplicationContextIn
     private String[] getActiveProfile(ConfigurableEnvironment appEnvironment) {
         List<String> serviceProfiles = new ArrayList<>();
 
+        logger.debug("appEnv.getActiveProfiles: " + String.join(",",appEnvironment.getActiveProfiles()) );
+
+        // is datasource local or remote? 
+        boolean isRemote = Arrays.asList(appEnvironment.getActiveProfiles()).contains("remote");
+        logger.debug("isRemote datasource ? " + isRemote);
+        
         for (String profile : appEnvironment.getActiveProfiles()) {
             if (validLocalProfiles.contains(profile)) {
                 serviceProfiles.add(profile);
-		// FAB extra debug to show each profile
-		logger.debug("profile: " + profile);
+                // FAB extra debug to show each profile
+		        logger.debug("added profile: " + profile);
             }
         }
 
@@ -116,7 +123,13 @@ public class SpringApplicationContextInitializer implements ApplicationContextIn
         }
 
         if (serviceProfiles.size() > 0) {
-            return createProfileNames(serviceProfiles.get(0), "local");
+            if(isRemote) {
+            	logger.debug("creating remote profiles");
+            	return createProfileNames(serviceProfiles.get(0), "remote");
+            }else {
+            	logger.debug("creating local profiles");
+            	return createProfileNames(serviceProfiles.get(0), "local");
+            }
         }
 
         return null;
